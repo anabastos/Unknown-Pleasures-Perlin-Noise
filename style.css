@@ -2,11 +2,13 @@ body {
 	background: #000
 }
 
-.video {
-	display: flex;
-	justify-content: center;
+h3 {
+	color: white;
+	font-family: helvetica
 }
 
-canvas {
-	width: 100%
+.content {
+	display: flex;
+	flex-flow: column-reverse nowrap;
+	align-items: center;
 }

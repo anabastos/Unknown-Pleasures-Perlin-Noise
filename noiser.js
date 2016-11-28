@@ -27,27 +27,40 @@ let Ondinha = () => {
     const canvas = document.querySelector("canvas");
     const context = canvas.getContext("2d");
     const noiseScale = 0.02
-    const canvasP = canvas.width/4
+    const canvasP = canvas.width
 
     return {
         drawWave: (y) => {
-            const waves = Array.from({length: canvas.width}, () => (Noise().getVal(noiseScale)))
+            const waves = Array.from({length: canvasP}, () => (Noise().getVal(noiseScale)))
             context.beginPath()
-            context.lineWidth = "0.3"
+            context.lineWidth = "0.1"
             let waveX = 0
+            let variation = 0;
             waves.map((wave, index) => {
-                multiplier = index > canvasP && index < canvasP * 3 ? -30 : 1
+                multiplier = index > canvasP/5 && index < canvasP/5 *4 ? -30 : 3
                 context.moveTo(index, y + waveX * multiplier)
                 context.lineTo(index, y + wave * multiplier)
                 context.strokeStyle = "white"
                 context.stroke()
                 waveX = wave
             })
+        },
+
+        drawWaves: () => {
+            for (var i = 30; i <= 210; i += 30) {
+                Ondinha().drawWave(i)
+            }
+        },
+
+        loop: () => {
+            setTimeout(function() {
+                context.clearRect(0, 0, canvas.width, canvas.height)
+                requestAnimationFrame(Ondinha().loop)
+                Ondinha().drawWaves()
+            }, 1000 / 50)
         }
     }
 
 }
 
-Ondinha().drawWave(30);
-Ondinha().drawWave(60);
-Ondinha().drawWave(90);
+Ondinha().loop()
